@@ -1,9 +1,8 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
-// use frame_support::debug;
 use codec::{Encode, Decode};
 use frame_support::{
-    decl_module, decl_storage, decl_event, decl_error, StorageValue, StorageDoubleMap,
+	debug, decl_module, decl_storage, decl_event, decl_error, StorageValue, StorageDoubleMap,
     traits::Randomness, RuntimeDebug,
 };
 use sp_io::hashing::blake2_128;
@@ -72,7 +71,7 @@ decl_module! {
 			let kitty_found: Option<Kitty> = Kitties::<T>::get(sender.clone(), next_id);
 
 			let prova: Option<Kitty> = Kitties::<T>::get(sender.clone(), 0);
-			// debug::info!("PROVA: {:?}", prova);
+			debug::info!("PROVA: {:?}", prova);
 
 			if kitty_found.is_some()
 			{
@@ -91,7 +90,7 @@ decl_module! {
 
 			// Create and store kitty
 			let kitty = Kitty(dna);
-			// debug::info!("NEW KITTY: {:?}", kitty);
+			debug::info!("NEW KITTY: {:?}", kitty);
 
 			let kitty_id = Self::next_kitty_id();
 			Kitties::<T>::insert(&sender, kitty_id, kitty.clone());
@@ -99,7 +98,7 @@ decl_module! {
 
 			// Emit event
 			Self::deposit_event(RawEvent::KittyCreated(sender, kitty_id, kitty));
-			// debug::info!("EVENT CREATION DEPOSITED");
+			debug::info!("EVENT CREATION DEPOSITED");
 
 		}
 	}
